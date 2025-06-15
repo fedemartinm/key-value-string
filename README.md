@@ -1,14 +1,24 @@
 # key-value-string
 
-A simple key-value string parser with zero dependencies. Parse and stringify key-value strings with support for numbers, quoted strings, and arrays.
+A simple key-value string parser with zero dependencies. Designed for single-line key-value strings with support for numbers, quoted strings, and arrays. Perfect for configuration strings, URL parameters, and command-line arguments.
 
 Thoroughly tested with 200+ unit tests to ensure reliability and edge case handling.
 
 ## Installation
 
+### For Library Usage
+
 ```bash
 npm install key-value-string
 ```
+
+### For CLI Usage (Global Installation)
+
+```bash
+npm install -g key-value-string
+```
+
+After global installation, the `kvs` command will be available in your terminal.
 
 ## Usage
 
@@ -63,7 +73,7 @@ console.log(parsed);
 
 ## CLI Usage
 
-After installation, you can use the `kvs` command:
+**Note**: Install globally first with `npm install -g key-value-string`
 
 ```bash
 # Parse key-value string to JSON
@@ -80,9 +90,14 @@ kvs parse -f config.kvs
 
 # Convert JSON file to key-value string
 kvs stringify -f data.json
+
+# Show help
+kvs --help
 ```
 
 ## Syntax
+
+The parser is designed for **single-line key-value strings** (though multiline works, comments are not supported):
 
 - **Key-value pairs**: `key=value;`
 - **Numbers**: Automatically parsed (`age=30` → `{ age: 30 }`)
@@ -90,6 +105,8 @@ kvs stringify -f data.json
 - **Arrays**: `tags=frontend,backend;` → `{ tags: ['frontend', 'backend'] }`
 - **Null values**: `optional=;` → `{ optional: null }`
 - **Empty arrays**: `tags=,;` → `{ tags: [null] }`
+
+**Note**: Comments (`#` or `//`) are not supported. Use for single-line configuration strings, URL parameters, or command-line arguments.
 
 ## API
 
@@ -118,21 +135,16 @@ interface KeyValueObject {
 
 ## Examples
 
-### Configuration Files
+### Configuration Strings
 
 ```javascript
-// Parse application config
-const config = parseKeyValueString(`
-  host=localhost;
-  port=3000;
-  database="my_app_db";
-  timeout=5000;
-  features=auth,logging,cache;
-  debug=true;
-`);
+// Parse application config string
+const configString = 'host=localhost;port=3000;database="my_app_db";timeout=5000;features=auth,logging,cache;debug=true;';
+const config = parseKeyValueString(configString);
 
 // Use the config
 console.log(`Server running on ${config.host}:${config.port}`);
+// Output: Server running on localhost:3000
 ```
 
 ### URL Parameters Style
