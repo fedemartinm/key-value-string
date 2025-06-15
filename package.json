@@ -5,6 +5,7 @@
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
   "browser": "dist/index.umd.js",
+  "unpkg": "dist/index.umd.js",
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
@@ -52,7 +53,7 @@
   "bugs": {
     "url": "https://github.com/fedemartinm/key-value-string/issues"
   },
-  "homepage": "https://github.com/fedemartinm/key-value-string#readme",
+  "homepage": "https://fedemartinm.github.io/key-value-string",
   "engines": {
     "node": ">=14.0.0"
   },

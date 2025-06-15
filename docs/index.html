@@ -278,7 +278,7 @@
         </div>
         <div class="rfc-meta">
             <a href="https://github.com/fedemartinm/key-value-string" target="_blank">[GitHub]</a>
-            <span id="version-display">Version: Loading...</span>
+            <span>Version: 1.0.2</span>
         </div>
         
         <h1 class="rfc-title">Key-Value String Parser Specification</h1>
@@ -412,53 +412,10 @@ kvs validate "name=John;age=30;"</code></pre>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
-    <script src="https://unpkg.com/key-value-string/dist/index.umd.js"></script>
+    <script src="https://unpkg.com/key-value-string@1.0.1/dist/index.umd.js"></script>
     <script>
         // Use the real package from unpkg.com
         const { parseKeyValueString, toKeyValueString } = KeyValueString;
-        
-        // Fetch and display the current NPM version
-        async function loadPackageVersion() {
-            try {
-                const response = await fetch('https://registry.npmjs.org/key-value-string/latest');
-                const data = await response.json();
-                const version = data.version;
-                
-                document.getElementById('version-display').textContent = `Version: ${version}`;
-                
-                // Also update the unpkg script src to use the latest version
-                updateUnpkgScript(version);
-            } catch (error) {
-                console.warn('Could not fetch package version:', error);
-                document.getElementById('version-display').textContent = 'Version: 1.0.0';
-            }
-        }
-        
-        function updateUnpkgScript(version) {
-            // Find the current unpkg script
-            const scripts = document.querySelectorAll('script[src*="unpkg.com/key-value-string"]');
-            if (scripts.length > 0) {
-                const currentScript = scripts[0];
-                const newSrc = `https://unpkg.com/key-value-string@${version}/dist/index.umd.js`;
-                
-                // Only update if the version is different
-                if (!currentScript.src.includes(`@${version}`)) {
-                    const newScript = document.createElement('script');
-                    newScript.src = newSrc;
-                    newScript.onload = function() {
-                        // Reinitialize demos with the new version
-                        if (window.KeyValueString) {
-                            const { parseKeyValueString: newParse, toKeyValueString: newStringify } = window.KeyValueString;
-                            window.parseKeyValueString = newParse;
-                            window.toKeyValueString = newStringify;
-                        }
-                    };
-                    
-                    currentScript.parentNode.insertBefore(newScript, currentScript.nextSibling);
-                    currentScript.remove();
-                }
-            }
-        }
         
         function parseKVSToJSON() {
             const input = document.getElementById('kvs-input').value;
@@ -507,7 +464,6 @@ kvs validate "name=John;age=30;"</code></pre>
         
         // Initialize demos on page load
         document.addEventListener('DOMContentLoaded', function() {
-            loadPackageVersion(); // Load current NPM version
             setupDemos();
             parseKVSToJSON(); // Initial parse for demo 1
             parseJSONToKVS(); // Initial parse for demo 2
