@@ -1,0 +1,32 @@
+# Source files (only include dist)
+src/
+*.jison
+
+# Development files
+*.test.*
+*.spec.*
+jest.config.*
+tsconfig.json
+.eslintrc.*
+.prettierrc.*
+
+# Build tools
+node_modules/
+.github/
+.vscode/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Coverage
+coverage/
+
+# Temporary
+*.tmp
+*.temp 

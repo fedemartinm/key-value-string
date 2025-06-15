@@ -1,0 +1,73 @@
+{
+  "name": "key-value-string",
+  "version": "1.0.0",
+  "description": "A simple key-value string parser with zero dependencies",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "browser": "dist/index.umd.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.esm.js",
+      "require": "./dist/index.js",
+      "browser": "./dist/index.umd.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "kvs": "dist/cli.js"
+  },
+  "scripts": {
+    "build": "npm run clean && npm run generate:parser && npm run patch:parser && npm run build:types && npm run build:module && npm run build:cli",
+    "build:types": "tsc --emitDeclarationOnly",
+    "build:module": "npm run build:cjs && npm run build:esm && npm run build:umd",
+    "build:cjs": "esbuild src/index.ts --bundle --outfile=dist/index.js --format=cjs --platform=node --target=node14",
+    "build:esm": "esbuild src/index.ts --bundle --outfile=dist/index.esm.js --format=esm --platform=browser --target=es2020",
+    "build:umd": "esbuild src/index.ts --bundle --outfile=dist/index.umd.js --format=iife --global-name=KeyValueString --platform=browser --target=es2015",
+    "build:cli": "esbuild src/cli.ts --bundle --outfile=dist/cli.js --format=cjs --platform=node --target=node14 --banner:js=\"#!/usr/bin/env node\" --external:fs --external:path",
+    "generate:parser": "jison src/grammar.jison --module-type commonjs --outfile src/parser.js",
+    "patch:parser": "node -e \"const fs=require('fs'); let content=fs.readFileSync('src/parser.js','utf8'); content=content.replace(/exports\\.main = function commonjsMain[\\s\\S]*?if \\(typeof module !== 'undefined' && require\\.main === module\\) \\{[\\s\\S]*?\\}$/m, ''); fs.writeFileSync('src/parser.js', content);\"",
+    "clean": "rm -rf dist",
+    "test": "jest",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm run test && npm run build"
+  },
+  "keywords": [
+    "parser", 
+    "key-value", 
+    "jison", 
+    "cli",
+    "string-parser",
+    "configuration",
+    "config-parser",
+    "text-parser"
+  ],
+  "author": "fedemartinm",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fedemartinm/key-value-string.git"
+  },
+  "bugs": {
+    "url": "https://github.com/fedemartinm/key-value-string/issues"
+  },
+  "homepage": "https://github.com/fedemartinm/key-value-string#readme",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.0",
+    "@types/node": "^18.0.0",
+    "esbuild": "^0.19.0",
+    "jest": "^29.5.0",
+    "jison": "^0.4.18",
+    "ts-jest": "^29.1.0",
+    "typescript": "^5.0.0"
+  },
+  "files": [
+    "dist/**/*",
+    "README.md",
+    "LICENSE"
+  ]
+}
