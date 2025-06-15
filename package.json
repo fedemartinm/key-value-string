@@ -1,6 +1,6 @@
 {
   "name": "key-value-string",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A simple key-value string parser with zero dependencies",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -34,9 +34,9 @@
     "prepublishOnly": "npm run test && npm run build"
   },
   "keywords": [
-    "parser", 
-    "key-value", 
-    "jison", 
+    "parser",
+    "key-value",
+    "jison",
     "cli",
     "string-parser",
     "configuration",
