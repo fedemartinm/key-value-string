@@ -1,6 +1,6 @@
 {
   "name": "key-value-string",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A simple key-value string parser with zero dependencies",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
